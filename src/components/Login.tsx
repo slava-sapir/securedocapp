@@ -11,7 +11,7 @@ import { Key } from "../enum/cashe.key";
 
 const loginSchema = z.object({
   email: z.string().min(3, "Email is required").email("Invalid email address"),
-  password: z.string().min(5, "Password is required"),
+  password: z.string().min(5, "Password is required")
 });
 
 const qrCodeSchema = z.object({
@@ -30,8 +30,7 @@ const Login = () => {
   const isLoggedIn: boolean = JSON.parse(localStorage.getItem(Key.LOGGEDIN)!) as boolean || false;
   const [loginUser, { data, error, isLoading, isSuccess }] = userAPI.useLoginUserMutation();
   const [verifyQrCode, { data: qrCodeData, error: qrCodeError, isLoading: qrCodeLoading, isSuccess: qrCodeSuccess }] = userAPI.useVerifyQrCodeMutation();
-  const { register, handleSubmit, formState: form, getFieldState } = useForm<IUserRequest>({
-    resolver: zodResolver(loginSchema), mode: "onTouched" });
+  const { register, handleSubmit, formState: form, getFieldState } = useForm<IUserRequest>({ resolver: zodResolver(loginSchema), mode: 'onTouched' });
   const { register:qrCodeRegister, handleSubmit: submitQrCode, formState: qrCodeForm, getFieldState: getQrCodeField
   } = useForm<QrCodeRequest>({ resolver: zodResolver(qrCodeSchema), mode: "onTouched" });
   
