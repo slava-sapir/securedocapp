@@ -1,7 +1,7 @@
 
 import { Link, Navigate, useLocation } from "react-router-dom";
 import { userAPI } from "../services/UserService";
-import { IUserRequest } from "../models/ICredentials";
+import { ILoginRequest, IUserRequest } from "../models/ICredentials";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,7 +30,7 @@ const Login = () => {
   const isLoggedIn: boolean = JSON.parse(localStorage.getItem(Key.LOGGEDIN)!) as boolean || false;
   const [loginUser, { data, error, isLoading, isSuccess }] = userAPI.useLoginUserMutation();
   const [verifyQrCode, { data: qrCodeData, error: qrCodeError, isLoading: qrCodeLoading, isSuccess: qrCodeSuccess }] = userAPI.useVerifyQrCodeMutation();
-  const { register, handleSubmit, formState: form, getFieldState } = useForm<IUserRequest>({ resolver: zodResolver(loginSchema), mode: 'onTouched' });
+  const { register, handleSubmit, formState: form, getFieldState } = useForm<ILoginRequest>({ resolver: zodResolver(loginSchema), mode: 'onTouched' });
   const { register:qrCodeRegister, handleSubmit: submitQrCode, formState: qrCodeForm, getFieldState: getQrCodeField
   } = useForm<QrCodeRequest>({ resolver: zodResolver(qrCodeSchema), mode: "onTouched" });
   

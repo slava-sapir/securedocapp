@@ -26,8 +26,7 @@ const VerifyPassword = () => {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const key = searchParams.get('key');
-    const { register, handleSubmit, reset, formState, getFieldState } = useForm<UpdateNewPassword>({
-          resolver: zodResolver(schema), mode: "onTouched" });
+    const { register, handleSubmit, reset, formState, getFieldState } = useForm<UpdateNewPassword>({ resolver: zodResolver(schema), mode: 'onTouched', defaultValues: { password: '', newPassword: '', confirmNewPassword: '' } });
     const[verifyPassword, { data, error, isLoading, isSuccess }] = userAPI.useVerifyPasswordMutation();
     const [resetpassword, { data: resetData, error: resetError, isLoading: resetLoading, isSuccess: resetSuccess }] = userAPI.useDoResetPasswordMutation();
 

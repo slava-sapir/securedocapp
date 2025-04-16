@@ -4,11 +4,15 @@ export interface IUserRequest {
     password?: string;
 }
 
+export interface ILoginRequest extends IUserRequest {
+    password: string; // override password to be required
+};
+
 export interface IRegisterRequest extends IUserRequest {
     firstName: string;
     lastName: string;
-    phone?: string;
-    bio?: string;
+    phone: string;
+    bio: string;
 };
 
 export type EmailAddress = Pick<IUserRequest, "email">;

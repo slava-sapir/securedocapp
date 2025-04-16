@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IResponse } from "../models/IResponse";
 import { baseUrl, isJsonContentType, processError, processResponse } from "../utils/requestutils";
-import { QrCodeRequest, User } from "../models/IUser";
-import { EmailAddress, IRegisterRequest, IUserRequest, UpdateNewPassword } from "../models/ICredentials";
+import { QrCodeRequest, Role, User } from "../models/IUser";
+import { EmailAddress, IRegisterRequest, IUserRequest, UpdateNewPassword, UpdatePassword } from "../models/ICredentials";
 import { Http } from "../enum/http.method";
 
 
@@ -78,7 +78,7 @@ export const userAPI = createApi({
         }),
         doResetPassword: builder.mutation<IResponse<void>, UpdateNewPassword>({
             query: (passwordrequest) => ({
-                url: `//resetpassword/reset`,
+                url: `/resetpassword/reset`,
                 method: Http.POST,
                 body: passwordrequest
             }),
@@ -86,6 +86,100 @@ export const userAPI = createApi({
             transformErrorResponse: processError,
             invalidatesTags: (result, error) => error ? [] : ['User']
         }),
+        updatePhoto: builder.mutation<IResponse<string>, FormData>({
+            query: (form) => ({
+                url: `/photo`,
+                method: Http.PATCH,
+                body: form
+            }),
+            transformResponse: processResponse<string>,
+            transformErrorResponse: processError,
+            invalidatesTags: (result, error) => error ? [] : ['User']
+        }),
+        updateUser: builder.mutation<IResponse<User>, IUserRequest>({
+            query: (user) => ({
+                url: `/update`,
+                method: Http.PATCH,
+                body: user
+            }),
+            transformResponse: processResponse<User>,
+            transformErrorResponse: processError,
+            invalidatesTags: (result, error) => error ? [] : ['User']
+        }),
+        updatePassword: builder.mutation<IResponse<void>, UpdatePassword>({
+            query: (request) => ({
+                url: `/updatepassword`,
+                method: Http.PATCH,
+                body: request
+            }),
+            transformResponse: processResponse<void>,
+            transformErrorResponse: processError,
+            invalidatesTags: (result, error) => error ? [] : ['User']
+        }),
+        toggleAccountExpired: builder.mutation<IResponse<void>, void>({
+            query: () => ({
+                url: `/toggleaccountexpired`,
+                method: Http.PATCH
+            }),
+            transformResponse: processResponse<void>,
+            transformErrorResponse: processError,
+            invalidatesTags: (result, error) => error ? [] : ['User']
+        }),
+        toggleAccountLocked: builder.mutation<IResponse<void>, void>({
+            query: () => ({
+                url: `/toggleaccountlocked`,
+                method: Http.PATCH
+            }),
+            transformResponse: processResponse<void>,
+            transformErrorResponse: processError,
+            invalidatesTags: (result, error) => error ? [] : ['User']
+        }),
+        toggleAccountEnabled: builder.mutation<IResponse<void>, void>({
+            query: () => ({
+                url: `/toggleaccountenabled`,
+                method: Http.PATCH
+            }),
+            transformResponse: processResponse<void>,
+            transformErrorResponse: processError,
+            invalidatesTags: (result, error) => error ? [] : ['User']
+        }),
+        toggleCrrentAccountExpired: builder.mutation<IResponse<void>, void>({
+            query: () => ({
+                url: `/togglecredentialsexpired`,
+                method: Http.PATCH
+            }),
+            transformResponse: processResponse<void>,
+            transformErrorResponse: processError,
+            invalidatesTags: (result, error) => error ? [] : ['User']
+        }),
+        updateRole: builder.mutation<IResponse<void>, Role>({
+            query: (role) => ({
+                url: `/updaterole`,
+                method: Http.PATCH,
+                body: role
+            }),
+            transformResponse: processResponse<void>,
+            transformErrorResponse: processError,
+            invalidatesTags: (result, error) => error ? [] : ['User']
+        }),
+        enableMfa: builder.mutation<IResponse<User>, void>({
+            query: () => ({
+                url: `/mfa/setup`,
+                method: Http.PATCH
+            }),
+            transformResponse: processResponse<User>,
+            transformErrorResponse: processError,
+            invalidatesTags: (result, error) => error ? [] : ['User']
+        }),
+        disableMfa: builder.mutation<IResponse<User>, void>({
+            query: () => ({
+                url: `/mfa/cancel`,
+                method: Http.PATCH
+            }),
+            transformResponse: processResponse<User>,
+            transformErrorResponse: processError,
+            invalidatesTags: (result, error) => error ? [] : ['User']
+        })
 
     })
 });
