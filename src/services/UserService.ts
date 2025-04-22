@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IResponse } from "../models/IResponse";
 import { baseUrl, isJsonContentType, processError, processResponse } from "../utils/requestutils";
-import { QrCodeRequest, Role, User } from "../models/IUser";
+import { QrCodeRequest, Role, User, Users } from "../models/IUser";
 import { EmailAddress, IRegisterRequest, IUserRequest, UpdateNewPassword, UpdatePassword } from "../models/ICredentials";
 import { Http } from "../enum/http.method";
 
@@ -179,7 +179,15 @@ export const userAPI = createApi({
             transformResponse: processResponse<User>,
             transformErrorResponse: processError,
             invalidatesTags: (result, error) => error ? [] : ['User']
-        })
+        }),
+        getUsers: builder.query<IResponse<Users>, void>({
+                query: () => ({
+                    url: `/list`,
+                    method: Http.GET
+                }),
+                transformResponse: processResponse<Users>,
+                transformErrorResponse: processError
+            }),
 
     })
 });
