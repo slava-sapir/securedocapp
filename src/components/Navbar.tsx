@@ -1,12 +1,18 @@
 import { userAPI } from '../services/UserService'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png'
+import { Key } from '../enum/cashe.key';
 
 const Navbar = () => {
     const { data: user, error, isLoading, refetch } = userAPI.useFetchUserQuery();
+    const [logout, { isLoading: logoutLoading } ] = userAPI.useLogoutMutation();
     const navigate = useNavigate();
 
-    const onLogout = async () => {}
+    const onLogout = async () => {
+      localStorage.removeItem(Key.LOGGEDIN);
+      await logout();
+      navigate('/login');
+    }
 
    return (
     <>

@@ -1,5 +1,6 @@
 import { Key } from '../enum/cashe.key';
 import { IResponse } from '../models/IResponse';
+import { toastError, toastSuccess } from '../services/ToastService';
 
 export const baseUrl = 'http://localhost:8085/user';
 export const isJsonContentType = ( headers:Headers ) => 
@@ -13,7 +14,7 @@ export const processResponse = <T>( response: IResponse<T>, meta:any, arg:unknow
     const {request } = meta;
     if(request.url.includes('logout')) { localStorage.removeItem(Key.LOGGEDIN);}
     if(!request.url.includes('profile')) { 
-        // Show the toast
+        toastSuccess(response.message);
     }
      console.log('Response:', {response } );
      return response;
@@ -23,8 +24,7 @@ export const processError = (error: { status: number; data: IResponse<void> }, m
     if(error.data.code === 401 && error.data.status === 'UNAUTHORIZED' && error.data.message === 'You are not logged in') {
         localStorage.setItem(Key.LOGGEDIN, 'false');
     }
-
-    // Show the toast
+    toastError(error.data.message);
     console.log('Error:', error);
     return error;
 }

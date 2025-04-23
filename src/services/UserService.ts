@@ -144,41 +144,41 @@ export const userAPI = createApi({
             invalidatesTags: (result, error) => error ? [] : ['User']
         }),
         toggleCrrentAccountExpired: builder.mutation<IResponse<void>, void>({
-            query: () => ({
-                url: `/togglecredentialsexpired`,
-                method: Http.PATCH
-            }),
-            transformResponse: processResponse<void>,
-            transformErrorResponse: processError,
-            invalidatesTags: (result, error) => error ? [] : ['User']
+                query: () => ({
+                    url: `/togglecredentialsexpired`,
+                    method: Http.PATCH
+                }),
+                transformResponse: processResponse<void>,
+                transformErrorResponse: processError,
+                invalidatesTags: (result, error) => error ? [] : ['User']
         }),
         updateRole: builder.mutation<IResponse<void>, Role>({
-            query: (role) => ({
-                url: `/updaterole`,
-                method: Http.PATCH,
-                body: role
-            }),
-            transformResponse: processResponse<void>,
-            transformErrorResponse: processError,
-            invalidatesTags: (result, error) => error ? [] : ['User']
+                query: (role) => ({
+                    url: `/updaterole`,
+                    method: Http.PATCH,
+                    body: role
+                }),
+                transformResponse: processResponse<void>,
+                transformErrorResponse: processError,
+                invalidatesTags: (result, error) => error ? [] : ['User']
         }),
         enableMfa: builder.mutation<IResponse<User>, void>({
-            query: () => ({
-                url: `/mfa/setup`,
-                method: Http.PATCH
-            }),
-            transformResponse: processResponse<User>,
-            transformErrorResponse: processError,
-            invalidatesTags: (result, error) => error ? [] : ['User']
+                query: () => ({
+                    url: `/mfa/setup`,
+                    method: Http.PATCH
+                }),
+                transformResponse: processResponse<User>,
+                transformErrorResponse: processError,
+                invalidatesTags: (result, error) => error ? [] : ['User']
         }),
         disableMfa: builder.mutation<IResponse<User>, void>({
-            query: () => ({
-                url: `/mfa/cancel`,
-                method: Http.PATCH
-            }),
-            transformResponse: processResponse<User>,
-            transformErrorResponse: processError,
-            invalidatesTags: (result, error) => error ? [] : ['User']
+                query: () => ({
+                    url: `/mfa/cancel`,
+                    method: Http.PATCH
+                }),
+                transformResponse: processResponse<User>,
+                transformErrorResponse: processError,
+                invalidatesTags: (result, error) => error ? [] : ['User']
         }),
         getUsers: builder.query<IResponse<Users>, void>({
                 query: () => ({
@@ -187,7 +187,16 @@ export const userAPI = createApi({
                 }),
                 transformResponse: processResponse<Users>,
                 transformErrorResponse: processError
-            }),
+        }),
+        logout: builder.mutation<IResponse<void>, void>({
+                query: () => ({
+                    url: `/logout`,
+                    method: Http.POST
+                }),
+                transformResponse: processResponse<void>,
+                transformErrorResponse: processError,
+                invalidatesTags: (result, error) => error ? [] : ['User']
+        }),
 
     })
 });
